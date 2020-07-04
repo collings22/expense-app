@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import Camera from '../components/Camera';
-import Gallery from '../components/Gallery';
-import ExpenseTotal from '../components/ExpenseTotal';
 import { usePhotoGallery } from '../hooks/usePhotoGallery';
 import { camera, trash, close } from 'ionicons/icons';
 import {
   IonContent, IonHeader, IonPage, IonTitle, IonToolbar,
   IonFab, IonFabButton, IonIcon, IonGrid, IonRow,
-  IonCol, IonImg, IonActionSheet, IonInput, IonLabel, IonItem
+  IonCol, IonImg, IonInput, IonLabel, IonItem
 } from '@ionic/react';
 
 const Home: React.FC = () => {
