@@ -10,6 +10,8 @@ export interface Photo {
   webviewPath?: string;
   base64?: string;
   expense: any;
+  timestamp: any;
+
 }
 const PHOTO_STORAGE = "photos";
 
@@ -20,7 +22,7 @@ export function usePhotoGallery() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const { getPhoto } = useCamera();
 
-  const savePicture = async (photo: CameraPhoto, fileName: string, expense: number): Promise<Photo> => {
+  const savePicture = async (photo: CameraPhoto, filename: any, timestamp: string, expense: number): Promise<Photo> => {
     let base64Data: string;
 
     // "hybrid" will detect Cordova or Capacitor;
@@ -33,7 +35,7 @@ export function usePhotoGallery() {
       base64Data = await base64FromPath(photo.webPath!);
     }
     const savedFile = await writeFile({
-      path: fileName,
+      path: filename,
       data: base64Data,
       directory: FilesystemDirectory.Data
         });
@@ -46,15 +48,17 @@ export function usePhotoGallery() {
         expense: 0.00,
         // webviewPath: photo.webPath
         webviewPath: Capacitor.convertFileSrc(savedFile.uri),
+        timestamp: timestamp
       };
     }
     else {
       // Use webPath to display the new image instead of base64 since it's
       // already loaded into memory
       return {
-        filepath: fileName,
+        filepath: timestamp,
         expense: 0.00,
-        webviewPath: photo.webPath
+        webviewPath: photo.webPath,
+        timestamp: timestamp
       };
     }
   };
@@ -95,9 +99,17 @@ export function usePhotoGallery() {
       quality: 100
     });
   
-    const fileName = new Date().getTime() + '.jpeg';
+    let date = new Date();
+    let hr = date.getHours();
+    let min = date.getMinutes();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
 
-    const savedFileImage = await savePicture(cameraPhoto, fileName, 0);
+    const timestamp = hr + ':' + min + ' ' + day + '/' + month + '/' + year;
+    const filename = date.getTime() + '.jpeg';
+
+    const savedFileImage = await savePicture(cameraPhoto, filename, timestamp, 0);
     let newPhotos = [savedFileImage, ...photos];
 
     setPhotos(newPhotos);
@@ -129,6 +141,7 @@ export function usePhotoGallery() {
       });
 
       photo[0].expense = value;
+      photo[0].timestamp = photo[0].timestamp == null ? 'no timestamp' : photo[0].timestamp;
       photo[0].filepath = new Date().getTime() + '.jpeg';
       photo[0].webviewPath = photo[0].webviewPath;
 
@@ -149,8 +162,6 @@ export function usePhotoGallery() {
           })));
   };
   
-
-
   return {
     photos,
     takePhoto,

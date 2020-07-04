@@ -28,6 +28,7 @@ const Home: React.FC = () => {
             {photos.map((photo, index) => (
               <IonCol size="5" key={index}>
                 <IonImg src={photo.base64 ?? photo.webviewPath} />
+                  <IonLabel>Timestamp: {photo.timestamp}</IonLabel>
 
                   <IonItem>
                     <IonLabel>Enter expense: £</IonLabel>

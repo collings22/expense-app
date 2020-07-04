@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './containers/Home';
+import Home from './components/Home';
 import { images, square, triangle } from 'ionicons/icons';
 
 /* Core CSS required for Ionic components to work properly */
