@@ -26,7 +26,7 @@ const Home: React.FC = () => {
         <IonGrid>
           <IonRow>
             {photos.map((photo, index) => (
-              <IonCol size="5" key={index}>
+              <IonCol size="3" key={index}>
                 <IonImg src={photo.base64 ?? photo.webviewPath} />
                   <IonLabel>Timestamp: {photo.timestamp}</IonLabel>
 
