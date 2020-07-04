@@ -12,7 +12,11 @@ import {
 
 const Home: React.FC = () => {
   const { photos, takePhoto, updateExpense } = usePhotoGallery();
+  let [expense, setExpense] = useState(0);
 
+  function updateChange(e: any) {
+    setExpense(parseFloat(e.value));
+  }
 
   return (
     <IonPage>
@@ -25,12 +29,15 @@ const Home: React.FC = () => {
         <IonGrid>
           <IonRow>
             {photos.map((photo, index) => (
-              <IonCol size="3" key={index}>
+              <IonCol size="5" key={index}>
                 <IonImg src={photo.base64 ?? photo.webviewPath} />
-                <IonItem>
-                  <IonLabel>Enter expense: £</IonLabel>
-                  <IonInput type="number" step="0.01" min="0" placeholder={photo.expense > 0 ? photo.expense : 0} onIonInput={e => updateExpense(photo.filepath, e)}></IonInput>
-                </IonItem>
+
+                  <IonItem>
+                    <IonLabel>Enter expense: £</IonLabel>
+                    <IonInput type="number" step="0.01" min="0" placeholder={photo.expense} onPointerLeave={e => updateChange(e.target)}></IonInput>
+                    <a type="btn" onClick={e => updateExpense(photo.filepath, expense)}>Update</a>
+                  </IonItem> 
+                         
               </IonCol>
             ))}
           </IonRow>

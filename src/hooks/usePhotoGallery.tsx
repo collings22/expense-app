@@ -45,7 +45,6 @@ export function usePhotoGallery() {
         filepath: savedFile.uri,
         expense: 0.00,
         // webviewPath: photo.webPath
-
         webviewPath: Capacitor.convertFileSrc(savedFile.uri),
       };
     }
@@ -64,13 +63,13 @@ export function usePhotoGallery() {
     const loadSaved = async () => {
       const photosString = await get('photos');
       const photosInStorage = (photosString ? JSON.parse(photosString) : []) as Photo[];
-      // If running on the web...
       
       let photosNotNull = photosInStorage.filter(function(p)  
       {
       return p != null
       });
 
+      // If running on the web...
       if (!isPlatform('hybrid')) {
         for (let photo of photosNotNull) {
           if(photo.filepath != null && photo.base64 != null){
@@ -116,7 +115,7 @@ export function usePhotoGallery() {
   };
 
   const updateExpense = async (file:string, expense:any) => {
-      let value = parseFloat(expense.target.value).toFixed(2);
+      let value = parseFloat(expense).toFixed(2);
 
       const photosString = await get('photos');
       const photosInStorage = (photosString ? JSON.parse(photosString) : []) as Photo[];
@@ -135,8 +134,6 @@ export function usePhotoGallery() {
 
 
       let newPhotos = [photo[0], ...photosNotNull];
-      // newPhotos = newPhotos.filter(obj => obj.filepath !== file);
-
 
       setPhotos(newPhotos);
 
@@ -144,8 +141,7 @@ export function usePhotoGallery() {
         isPlatform('hybrid')
           ? JSON.stringify(newPhotos)
           : JSON.stringify(newPhotos.map(p => {
-            // Don't save the base64 representation of the photo data,
-            // since it's already saved on the Filesystem
+
             const photoCopy = { ...p };
             delete photoCopy.base64;
 
