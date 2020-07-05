@@ -22,6 +22,7 @@ const Home: React.FC = () => {
           <IonTitle>Expense App</IonTitle>
         </IonToolbar>
       </IonHeader>
+
       <IonCard>
         <IonCardContent>
           <IonText>Enter expenses into the input fields and use the update button to log how much is claimable against that receipt.</IonText>
@@ -34,6 +35,7 @@ const Home: React.FC = () => {
         </IonCardContent>
       </IonCard>
 
+      <IonContent overflow-scroll="false">
 
       <IonGrid>
         <IonRow>
@@ -45,9 +47,11 @@ const Home: React.FC = () => {
                   <IonImg src={photo.base64 ?? photo.webviewPath} />
                   <IonLabel>Timestamp: {photo.timestamp}</IonLabel>
 
-
                   <IonItem>
-                    £<IonInput type="number" step="0.01" min="0" placeholder={photo.expense} onPointerLeave={e => updateChange(e.target)}></IonInput>
+                    Current Expense: £{parseFloat(photo.expense)}
+                  </IonItem>
+                  <IonItem>
+                    £<IonInput type="number" step="0.01" min="0" onIonChange={e => updateChange(e.target)}></IonInput>
                   </IonItem>
 
                   <IonItem>
@@ -63,14 +67,13 @@ const Home: React.FC = () => {
 
         </IonRow>
       </IonGrid>
+      </IonContent>
 
-      <IonContent>
         <IonFab vertical="bottom" horizontal="center" slot="fixed">
           <IonFabButton onClick={() => takePhoto()}>
             <IonIcon icon={camera}></IonIcon>
           </IonFabButton>
         </IonFab>
-      </IonContent>
     </IonPage>
   );
 };

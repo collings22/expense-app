@@ -134,15 +134,17 @@ export function usePhotoGallery() {
 
       let photo = photosInStorage.filter(x => x.filepath === file);
 
-
+      console.log(photo)
+      console.log(value)
       let photosNotNull = photosInStorage.filter(function(p)  
       {
         return p.filepath != file
       });
 
+
       photo[0].expense = value;
-      photo[0].timestamp = photo[0].timestamp == null ? 'no timestamp' : photo[0].timestamp;
-      photo[0].filepath = new Date().getTime() + '.jpeg';
+      photo[0].timestamp = photo[0].timestamp;
+      photo[0].filepath = photo[0].filepath;
       photo[0].webviewPath = photo[0].webviewPath;
 
 
